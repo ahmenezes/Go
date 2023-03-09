@@ -432,7 +432,27 @@ Notes:
 * Add an init function to seed the rand package with the current time. Go executes init functions automatically at program startup, after global variables have been initialized. For more about init functions, see [Effective Go][effective_go].
 
 
+2 - in hello/hello.go, change your line calling greetings.Hello
 
+
+```go
+ // Request a greeting message.
+    message, err := greetings.Hello("Gladys")
+
+ ```   
+
+3 - At the command line, in the hello directory, run hello.go to confirm that the code works. Run it multiple times, noticing that the greeting changes.
+
+```console
+$ go run .
+Great to see you, Gladys!
+
+$ go run .
+Hi, Gladys. Welcome!
+
+$ go run .
+Hail, Gladys! Well met!
+```
 
 
 
