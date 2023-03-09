@@ -454,6 +454,96 @@ $ go run .
 Hail, Gladys! Well met!
 ```
 
+## Tutorial 6  - Return greetings for multiple people
+
+You can find the original tutorial here [Return greetings for multiple people][greetings-multiple-people]
+
+
+1 - In greetings/greetings.go, add to your code the following:
+
+
+```go
+
+// Hellos returns a map that associates each of the named people
+// with a greeting message.
+func Hellos(names []string) (map[string]string, error) {
+    // A map to associate names with messages.
+    messages := make(map[string]string)
+    // Loop through the received slice of names, calling
+    // the Hello function to get a message for each name.
+    for _, name := range names {
+        message, err := Hello(name)
+        if err != nil {
+            return nil, err
+        }
+        // In the map, associate the retrieved message with
+        // the name.
+        messages[name] = message
+    }
+    return messages, nil
+}
+```
+
+Notes:
+
+* Add a Hellos function whose parameter is a slice of names rather than a single name. Also, you change one of its return types from a string to a map so you can return names mapped to greeting messages.
+
+* Have the new Hellos function call the existing Hello function. This helps reduce duplication while also leaving both functions in place.
+
+* Create a messages map to associate each of the received names (as a key) with a generated message (as a value). In Go, you initialize a map with the following syntax: make(map[key-type]value-type). You have the Hellos function return this map to the caller. For more about maps, see Go maps in action on the Go blog.
+
+* Loop through the names your function received, checking that each has a non-empty value, then associate a message with each. In this for loop, range returns two values: the index of the current item in the loop and a copy of the item's value. You don't need the index, so you use the Go blank identifier (an underscore) to ignore it. For more, see The blank identifier in Effective Go.
+
+
+2 - In your hello/hello.go calling code, pass a slice of names, then print the contents of the names/messages map you get back.
+
+In hello.go, change your code so it looks like the following.
+
+```go 
+package main
+
+import (
+    "fmt"
+    "log"
+
+    "example.com/greetings"
+)
+
+func main() {
+    // Set properties of the predefined Logger, including
+    // the log entry prefix and a flag to disable printing
+    // the time, source file, and line number.
+    log.SetPrefix("greetings: ")
+    log.SetFlags(0)
+
+    // A slice of names.
+    names := []string{"Gladys", "Samantha", "Darrin"}
+
+    // Request greeting messages for the names.
+    messages, err := greetings.Hellos(names)
+    if err != nil {
+        log.Fatal(err)
+    }
+    // If no error was returned, print the returned map of
+    // messages to the console.
+    fmt.Println(messages)
+}
+
+```
+
+3 - At the command line, change to the directory that contains hello/hello.go, then use go run to confirm that the code works.
+
+
+```console
+$ go run .
+
+map[Darrin:Hi, Darrin. Welcome! Gladys:Hail, Gladys! Well met! Samantha:Great to see you, Samantha!]
+```
+
+
+
+
+
 
 
 
@@ -467,3 +557,5 @@ Hail, Gladys! Well met!
 [random-greeting]: https://go.dev/doc/tutorial/random-greeting
 
 [effective_go]: https://go.dev/doc/effective_go.html#init
+
+[greetings-multiple-people]: https://go.dev/doc/tutorial/greetings-multiple-people
