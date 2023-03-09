@@ -304,7 +304,7 @@ Hi, Gladys. Welcome!
 ```
 
 
-## Return and handle an error
+## Tutorial 4 - Return and handle an error
 
 The original version can be found here [Return and handle an error][return-and-handle-an-error]
 
@@ -377,6 +377,61 @@ exit status 1
 	message, err := greetings.Hello("")
 ```
 
+## Tutorial 5 - Return and handle an error
+
+Original steps can be found here - [Return a random greeting][random-greeting]
+
+
+1 - In greetings/greetings.go, change your code so it looks like the following.
+```go
+package greetings
+
+import (
+    "errors"
+    "fmt"
+    "math/rand"
+    "time"
+)
+
+// Hello returns a greeting for the named person.
+func Hello(name string) (string, error) {
+    // If no name was given, return an error with a message.
+    if name == "" {
+        return name, errors.New("empty name")
+    }
+    // Create a message using a random format.
+    message := fmt.Sprintf(randomFormat(), name)
+    return message, nil
+}
+
+// init sets initial values for variables used in the function.
+func init() {
+    rand.Seed(time.Now().UnixNano())
+}
+
+// randomFormat returns one of a set of greeting messages. The returned
+// message is selected at random.
+func randomFormat() string {
+    // A slice of message formats.
+    formats := []string{
+        "Hi, %v. Welcome!",
+        "Great to see you, %v!",
+        "Hail, %v! Well met!",
+    }
+
+    // Return a randomly selected message format by specifying
+    // a random index for the slice of formats.
+    return formats[rand.Intn(len(formats))]
+}
+
+
+```
+
+Notes: 
+* In randomFormat, declare a formats slice with three message formats. When declaring a slice, you omit its size in the brackets, like this: []string. This tells Go that the size of the array underlying the slice can be dynamically changed.
+* Add an init function to seed the rand package with the current time. Go executes init functions automatically at program startup, after global variables have been initialized. For more about init functions, see [Effective Go][effective_go].
+
+
 
 
 
@@ -388,3 +443,7 @@ exit status 1
 [call-module-code]: https://go.dev/doc/tutorial/call-module-code
 
 [return-and-handle-an-error]: https://go.dev/doc/tutorial/handle-errors
+
+[random-greeting]: https://go.dev/doc/tutorial/random-greeting
+
+[effective_go]: https://go.dev/doc/effective_go.html#init
