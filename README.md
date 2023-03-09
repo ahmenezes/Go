@@ -657,6 +657,94 @@ FAIL	example.com/greetings	0.451s
 ```
 
 
+## Tutorial 8 - Compile and install the application
+
+The original tutorial can be found here [Compile and install the application][compile-install]
+
+This topic introduces two additional commands for building code:
+
+* The go build command compiles the packages, along with their dependencies, but it doesn't install the results.
+* The go install command compiles and installs the packages.
+
+1 - From the command line in the hello directory, run the go build command to compile the code into an executable.
+
+```console
+$ cd ..
+$ cd hello
+$ go build
+```
+
+Note: the **go build** command is silent but if you **ls** the folder you will notice a new executable file was created **hello**
+
+
+
+
+2 - From the command line in the hello directory, run the new hello executable to confirm that the code works.
+
+```console
+
+$ ./hello
+
+map[Darrin:Hi, Darrin. Welcome! Gladys:Hi, Gladys. Welcome! Samantha:Hail, Samantha! Well met!]
+```
+
+You've compiled the application into an executable so you can run it. But to run it currently, your prompt needs either to be in the executable's directory, or to specify the executable's path.
+
+Next, you'll install the executable so you can run it without specifying its path.
+
+
+3 - Discover the Go install path, where the go command will install the current package.
+
+You can discover the install path by running the go list command, as in the following example:
+
+
+```console
+$ go list -f '{{.Target}}'
+
+/Users/alvaro.menezes/go/bin/hello
+```
+
+this means that binaries are installed in this folder. You will need thos install folder in the next step
+
+
+4 -  Add the Go install directory to your system's shell path.
+That way, you'll be able to run your program's executable without specifying where the executable is.
+
+```console
+$ export PATH=$PATH:/Users/alvaro.menezes/go/bin/hello
+
+$ echo $PATH
+```
+
+5 - Once you've updated the shell path, you can run the go install command to compile and install the package. But why would you do that? the step is in the next line, but why would I do this.. no I did'nt :)
+
+```console
+$ go install
+```
+
+6 - If you installed, you can run this application by simply typing the name **hello** from the current or other terminal windows.
+
+```console
+$ hello
+map[Darrin:Hail, Darrin! Well met! Gladys:Great to see you, Gladys! Samantha:Hail, Samantha! Well met!]
+```
+
+
+That wraps up this Go tutorial!
+
+It's a good starting point.. not great.. 
+
+let's look at the [Tour of Go][tour]
+
+Before jumping to Kafka and maybe we can join Kafka with Go.
+
+
+
+
+
+
+
+
 
 
 [download1]: https://go.dev/doc/install
@@ -673,3 +761,7 @@ FAIL	example.com/greetings	0.451s
 [greetings-multiple-people]: https://go.dev/doc/tutorial/greetings-multiple-people
 
 [add-a-test]: https://go.dev/doc/tutorial/add-a-test
+
+[compile-install]: https://go.dev/doc/tutorial/compile-install
+
+[tour]: https://go.dev/tour/
